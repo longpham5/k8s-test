@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: longppham5/eshopwebmvc:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: SA_PASSWORD
+            - name: ConnectionStrings__CatalogConnection
+              value: "Server=database-service,1433;Database=CatalogDb;User Id=sa;Password=$(SA_PASSWORD);TrustServerCertificate=True"
+            - name: ConnectionStrings__IdentityConnection
+              value: "Server=database-service,1433;Database=IdentityDb;User Id=sa;Password=$(SA_PASSWORD);TrustServerCertificate=True"
+            - name: DOTNET_ENVIRONMENT
+              value: "Docker"
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
