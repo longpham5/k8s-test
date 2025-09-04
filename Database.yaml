@@ -39,6 +39,12 @@ spec:
           volumeMounts:
             - name: database-storage
               mountPath: /var/opt/mssql
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 10001:10001 /var/opt/mssql"]
+          securityContext:
+            runAsUser: 0
       volumes:
         - name: database-storage
           persistentVolumeClaim:
