@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: "nginx"
   rules:
-    - host: "www.example.com"
+    - host: "www.longppham5.xyz"
       http:
         paths:
           - path: /catalog
