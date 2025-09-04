@@ -33,3 +33,15 @@ spec:
               value: "Docker"
             - name: ASPNETCORE_URLS
               value: "http://+:8080"
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
